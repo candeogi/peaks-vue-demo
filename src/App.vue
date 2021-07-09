@@ -15,8 +15,8 @@
     controls
   ></audio>
   <div>
-    <button @click="zoomIn">Zoom in</button>
-    <button @click="zoomOut">Zoom out</button>
+    <button ref="zoomInButton">Zoom in</button>
+    <button ref="zoomOutButton">Zoom out</button>
   </div>
 </template>
 
@@ -48,14 +48,16 @@ export default {
       const vm = this;
       Peaks.init(options, function (err, peaks) {
         console.log(err, peaks);
+        
         vm.peakInstance = peaks;
+
+        vm.$refs.zoomInButton.addEventListener("click", () => {
+          peaks.zoom.zoomIn();
+        });
+        vm.$refs.zoomOutButton.addEventListener("click", () => {
+          peaks.zoom.zoomOut();
+        });
       });
-    },
-    zoomIn() {
-      this.peakInstance.zoom.zoomIn();
-    },
-    zoomOut() {
-      this.peakInstance.zoom.zoomOut();
     },
   },
 };
